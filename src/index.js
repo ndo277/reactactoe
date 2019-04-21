@@ -56,14 +56,19 @@ class Game extends React.Component {
     }
   }
 
-  jumpTo(step) {
+  // where does 'step' come from?
+  jumpToAndBold(e, step) {
     this.setState({
       stepNumber: step,
       xIsNext: (step % 2) === 0
     });
+    let btns = document.getElementsByClassName("history-btn");
+    Array.from(btns).map(btn => btn.style.fontWeight = 'normal')
+    e.target.style.fontWeight = 'bold';
   }
   
-  //what is i V ???
+  // is 'i' the event obj?
+  // 'i' seems to be specifying the index from the squares array?
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
@@ -83,8 +88,6 @@ class Game extends React.Component {
       xIsNext: !this.state.xIsNext
     });
 
-    console.log(this.state.history[history.length - 1].moveLoc);
-
   }
 
   render() {
@@ -92,14 +95,15 @@ class Game extends React.Component {
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
     
-                  // what is 'move'  VVVV ???
+    // 'move' parameter seems to be specifying the move number?
+    // shouldn't 'move' be obj of {squares:..., moveLoc:...}?
     const moves = history.map((step, move) => {
       const desc = move ? 'Go to move #' + move + " " + history[move].moveLoc :
        'Go to game start';
       return (
         <li key={move}>
-          <button onClick={() =>
-                    this.jumpTo(move)
+          <button className="history-btn" onClick={(e) =>
+                    this.jumpToAndBold(e, move)
                   }>
             {desc}
           </button>
