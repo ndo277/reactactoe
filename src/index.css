@@ -61,3 +61,8 @@ ol, ul {
   justify-content: space-evenly ;
   margin: 2px;
 }
+
+.row-squares {
+  display: flex;
+  align-content: center;
+}

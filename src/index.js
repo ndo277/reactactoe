@@ -110,9 +110,18 @@ class Game extends React.Component {
         <div className="game-board">
 
           <div className="col">
+            <div> </div>
             <div>A</div>
             <div>B</div>
             <div>C</div>
+          </div>
+
+        <div className="row-squares"> 
+
+          <div className="row">
+            <div>D</div>
+            <div>E</div>
+            <div>F</div>
           </div>
 
           <Board 
@@ -121,12 +130,8 @@ class Game extends React.Component {
           />
         </div>
 
-        <div className="row">
-          <div> </div>
-          <div>D</div>
-          <div>E</div>
-          <div>F</div>
-        </div>
+      </div>
+        
         
         <div className="game-info">
           <div>{status}</div>
