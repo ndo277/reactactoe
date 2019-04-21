@@ -48,7 +48,8 @@ class Game extends React.Component {
     super(props);
     this.state = {
       history: [{
-        squares: Array(9).fill(null)
+        squares: Array(9).fill(null),
+        moveLoc: null
       }],
       xIsNext: true,
       stepNumber: 0
@@ -61,11 +62,13 @@ class Game extends React.Component {
       xIsNext: (step % 2) === 0
     });
   }
-
+  
+  //what is i V ???
   handleClick(i) {
     const history = this.state.history.slice(0, this.state.stepNumber + 1);
     const current = history[history.length - 1];
     const squares = current.squares.slice();
+    const lastMoveLoc = determineMoveLocation(i);
   
     if (calculateWinner(squares) || squares[i]) {
       return;
@@ -73,20 +76,25 @@ class Game extends React.Component {
     squares[i] = this.state.xIsNext ? 'X' : 'O';
     this.setState({
       history: history.concat([{ 
-        squares: squares
+        squares: squares,
+        moveLoc: lastMoveLoc
       }]),
       stepNumber: history.length, 
       xIsNext: !this.state.xIsNext
     });
+
+    console.log(this.state.history[history.length - 1].moveLoc);
+
   }
 
   render() {
     const history = this.state.history;
     const current = history[this.state.stepNumber];
     const winner = calculateWinner(current.squares);
-
+    
+                  // what is 'move'  VVVV ???
     const moves = history.map((step, move) => {
-      const desc = move ? 'Go to move #' + move + ' (col, row)':
+      const desc = move ? 'Go to move #' + move + " " + history[move].moveLoc :
        'Go to game start';
       return (
         <li key={move}>
@@ -116,21 +124,21 @@ class Game extends React.Component {
             <div>C</div>
           </div>
 
-        <div className="row-squares"> 
+          <div className="row-squares"> 
 
-          <div className="row">
-            <div>D</div>
-            <div>E</div>
-            <div>F</div>
+            <div className="row">
+              <div>D</div>
+              <div>E</div>
+              <div>F</div>
+            </div>
+
+            <Board 
+              squares={current.squares}
+              onClick={(i) => this.handleClick(i)}
+            />
           </div>
 
-          <Board 
-            squares={current.squares}
-            onClick={(i) => this.handleClick(i)}
-          />
         </div>
-
-      </div>
         
         
         <div className="game-info">
@@ -139,6 +147,29 @@ class Game extends React.Component {
         </div>
       </div>
     );
+  }
+}
+
+function determineMoveLocation (index) {
+  switch (index) {
+    case 0:
+      return "(A,D)";
+    case 1:
+      return "(B,D)";
+    case 2:
+      return "(C,D)";
+    case 3:
+      return "(A,E)";
+    case 4:
+      return "(B,E)";
+    case 5:
+      return "(C,E)";
+    case 6:
+      return "(A,F)";
+    case 7:
+      return "(B,F)";
+    case 8:
+      return "(C,F)";
   }
 }
 
